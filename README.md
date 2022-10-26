@@ -1,5 +1,5 @@
 # Hermes - A personal DiscordBot 
-## DiscordBot that uses mainly SlashCommands for personal Use
+## DiscordBot that uses mainly SlashCommands for personal use
 
 The Bots functionality is going to increase from time to time as need is seen.
 The Initial Push is over, now the Commands have to be implemented
