@@ -1,15 +1,41 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
-using Hermes.Models;
 using Hermes.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hermes;
 
 internal class Program
 {
-    internal DiscordSocketClient? Client;
+    internal readonly DiscordSocketClient Client;
+    internal readonly IConfiguration Configuration;
+    internal readonly LoggingService LoggingService;
+    internal readonly IServiceProvider Services;
+    internal InteractionService InteractionService;
+
+    public Program()
+    {
+        Configuration = new ConfigurationBuilder()
+                        .AddJsonFile("appsettings.json", false)
+                        .Build();
+
+        Services = Services = new ServiceCollection()
+                              .AddSingleton<DiscordSocketClient>()
+                              .AddSingleton<CommandService>()
+                              .AddSingleton<HttpClient>()
+                              .AddSingleton<LoggingService>()
+                              .AddSingleton<InteractionHandlerService>()
+                              .AddSingleton<InteractionService>()
+                              .AddSingleton(Configuration)
+                              .BuildServiceProvider();
+
+        Client = Services.GetRequiredService<DiscordSocketClient>();
+        LoggingService = Services.GetRequiredService<LoggingService>();
+        InteractionService = Services.GetRequiredService<InteractionService>();
+    }
 
     private static void Main()
     {
@@ -18,41 +44,11 @@ internal class Program
 
     public async Task MainAsync()
     {
-        await using var services = ConfigureServices();
-        var logger = services.GetRequiredService<LoggingService>();
-        await logger.DebugAsync("Initializing Services");
+        await Services.GetRequiredService<InteractionHandlerService>().InitializeAsync();
 
-        Client = services.GetRequiredService<DiscordSocketClient>();
-        await Client.LoginAsync(TokenType.Bot, Environment.GetEnvironmentVariable("token", EnvironmentVariableTarget.User));
+        await Client.LoginAsync(TokenType.Bot, Configuration.GetValue<string>("Token"));
         await Client.StartAsync();
 
-        Client.Ready += () => Task.Run(() => InitializeServices(UtilityService.GetInitializableServices(services)));
         await Task.Delay(Timeout.Infinite);
-    }
-
-    private static ServiceProvider ConfigureServices()
-    {
-        return new ServiceCollection()
-               .AddSingleton<DiscordSocketClient>()
-               .AddSingleton<CommandService>()
-               .AddSingleton<HttpClient>()
-               .AddSingleton<UtilityService>()
-               .AddSingleton<SlashCommandHandlerService>()
-               .AddSingleton<LoggingService>()
-               .BuildServiceProvider();
-    }
-
-    private static async void InitializeServices(List<IService> services)
-    {
-        try
-        {
-            foreach ( var service in services )
-                await service.InitializeAsync();
-        }
-        catch ( Exception e )
-        {
-            Console.WriteLine(e);
-            throw;
-        }
     }
 }

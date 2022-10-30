@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using Discord;
 using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -44,6 +45,7 @@ public class LoggingService
     {
         services.GetRequiredService<CommandService>().Log += LogAsync;
         services.GetRequiredService<DiscordSocketClient>().Log += LogAsync;
+        services.GetRequiredService<InteractionService>().Log += LogAsync;
     }
 
     public LoggingService(IServiceProvider services, OutputType outputType, FilterSeverity filterSeverity)
