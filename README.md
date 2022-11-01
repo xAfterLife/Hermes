@@ -13,7 +13,7 @@ The Bots functionality is going to increase from time to time as need is seen. T
 
 ## Badges
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)![Language](https://img.shields.io/github/languages/top/xAfterLife/Hermes)![Code Size](https://img.shields.io/github/languages/code-size/xAfterLife/Hermes)[![CodeQL](https://github.com/xAfterLife/Hermes/actions/workflows/codeql.yml/badge.svg)](https://github.com/xAfterLife/Hermes/actions/workflows/codeql.yml)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)<space><space>![Language](https://img.shields.io/github/languages/top/xAfterLife/Hermes)<space><space>![Code Size](https://img.shields.io/github/languages/code-size/xAfterLife/Hermes)<space><space>[![CodeQL](https://github.com/xAfterLife/Hermes/actions/workflows/codeql.yml/badge.svg)](https://github.com/xAfterLife/Hermes/actions/workflows/codeql.yml)
 
 
 
