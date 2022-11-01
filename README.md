@@ -57,6 +57,6 @@ To run this project, you will need to add the following appsettings.json
 
 * .Net 6.0 
 * Discord.Net 
-* Microsoft.Extensions.DependencyInjection
 * Microsoft.Extensions.Configuration
+* Microsoft.Extensions.DependencyInjection
 * (Probably EF.CORE or MongoDB in the Future)
