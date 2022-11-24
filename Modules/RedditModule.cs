@@ -7,18 +7,18 @@ namespace Hermes.Modules;
 public class RedditModule : InteractionModuleBase<SocketInteractionContext>
 {
     [SlashCommand("reddit", "Posts a Random Post from this Subreddit")]
-    public async Task Reddit([Summary(description: "Das Subreddit woraus geladen werden soll")] string subreddit = "Hentai_Gif", [Summary(description: "The amount of posts found")] int postCount = 1)
+    public async Task Reddit([Summary(description: "Das Subreddit woraus geladen werden soll")] string subreddit = "Hentai_Gif", [Summary(description: "The amount of posts found")] int postCount = 1, [Summary(description: "Should everyone see this or only you?")] bool onlyMe = false)
     {
-        await DeferAsync(true);
+        await DeferAsync(onlyMe);
 
         var embeds = new Embed[postCount];
         var client = new HttpClient();
 
-        for (var i = 0; i < postCount; i++)
+        for ( var i = 0; i < postCount; i++ )
         {
             var result = await client.GetStringAsync($"https://reddit.com/r/{subreddit}/random.json?limit=1");
 
-            if (!result.StartsWith("["))
+            if ( !result.StartsWith("[") )
             {
                 await FollowupAsync("This subreddit doesn't exist!");
                 return;
@@ -36,6 +36,6 @@ public class RedditModule : InteractionModuleBase<SocketInteractionContext>
             embeds[i] = builder.Build();
         }
 
-        await FollowupAsync(embeds: embeds);
+        await FollowupAsync(embeds: embeds, ephemeral: onlyMe);
     }
 }

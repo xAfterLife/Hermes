@@ -11,14 +11,14 @@ namespace Hermes;
 internal class Program
 {
     internal readonly DiscordSocketClient Client;
-    internal readonly IServiceProvider Services;
     internal readonly LoggingService LoggingService;
+    internal readonly IServiceProvider Services;
 
     public Program()
     {
         var configuration = (IConfiguration)new ConfigurationBuilder()
-                        .AddJsonFile("appsettings.json", false)
-                        .Build();
+                                            .AddJsonFile("appsettings.json", false)
+                                            .Build();
 
         Services = Services = new ServiceCollection()
                               .AddSingleton<DiscordSocketClient>()
@@ -27,6 +27,8 @@ internal class Program
                               .AddSingleton<LoggingService>()
                               .AddSingleton<InteractionHandlerService>()
                               .AddSingleton<InteractionService>()
+                              .AddSingleton<SpotifyService>()
+                              .AddSingleton<JsonService>()
                               .AddSingleton(configuration)
                               .BuildServiceProvider();
 
@@ -45,9 +47,8 @@ internal class Program
     {
         await Services.GetRequiredService<InteractionHandlerService>().InitializeAsync();
 
-
         _ = LoggingService.InfoAsync("Starting Bot");
-        await Client.LoginAsync(TokenType.Bot, Services.GetRequiredService<IConfiguration>().GetValue<string>("Token"));
+        await Client.LoginAsync(TokenType.Bot, Services.GetRequiredService<IConfiguration>().GetValue<string>("DiscordToken"));
         await Client.StartAsync();
 
         await Task.Delay(Timeout.Infinite);

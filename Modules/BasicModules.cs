@@ -55,13 +55,13 @@ public class ExampleModule : InteractionModuleBase<SocketInteractionContext>
     public async Task PinMessageAsync(IMessage message)
     {
         // make a safety cast to check if the message is ISystem- or IUserMessage
-        if (message is not IUserMessage userMessage)
+        if ( message is not IUserMessage userMessage )
         {
             await RespondAsync(":x: You cant pin system messages!");
         }
 
         // if the pins in this channel are equal to or above 50, no more messages can be pinned.
-        else if ((await Context.Channel.GetPinnedMessagesAsync()).Count >= 50)
+        else if ( (await Context.Channel.GetPinnedMessagesAsync()).Count >= 50 )
         {
             await RespondAsync(":x: You cant pin any more messages, the max has already been reached in this channel!");
         }
