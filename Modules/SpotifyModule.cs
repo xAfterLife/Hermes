@@ -23,6 +23,9 @@ public class SpotifyModule : InteractionModuleBase<SocketInteractionContext>
     {
         await DeferAsync();
         var embeds = await SpotifyService.Search(SearchRequest.Types.Track, query);
-        await FollowupAsync(embeds: embeds.Select(x => x.Build()).ToArray()[..9]);
+        var components = new ComponentBuilder();
+        components.AddRow(new ActionRowBuilder().WithButton("Test",style: ButtonStyle.Link, url: @"https://www.youtube.com/watch?v=dXKwnfygss8"));
+
+        await FollowupAsync(embeds: embeds.Select(x => x.Build()).ToArray()[..9], components: components.Build());
     }
 }
