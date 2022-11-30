@@ -28,8 +28,10 @@ To run this project, you will need to add the following appsettings.json
 
 ```json
 {
-    "Token": "Your Bot-Token",
-    "testGuild": "Your Guild-ID"
+  "DiscordToken": "YOUR TOKEN",
+  "SpotifyId": "YOUR ID",
+  "SpotifySecret": "YOUR SECRET",
+  "testGuild": "GuildId"
 }
 ```
 
