@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Hermes.Modules;
 
+[Group("reddit", "reddit command group")]
 public class RedditModule : InteractionModuleBase<SocketInteractionContext>
 {
     [SlashCommand("reddit", "Posts a Random Post from this Subreddit")]

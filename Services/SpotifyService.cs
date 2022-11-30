@@ -22,11 +22,20 @@ public sealed class SpotifyService
             var spotifyId = config.GetValue<string>("SpotifyId");
             var spotifySecret = config.GetValue<string>("SpotifySecret");
 
-            var spotifyConfig = SpotifyClientConfig
-                                .CreateDefault()
-                                .WithAuthenticator(new ClientCredentialsAuthenticator(spotifyId, spotifySecret));
+            if ( spotifyId != null && spotifySecret != null )
+            {
+                var spotifyConfig = SpotifyClientConfig
+                                    .CreateDefault()
+                                    .WithAuthenticator(new ClientCredentialsAuthenticator(spotifyId, spotifySecret));
 
-            _client = new SpotifyClient(spotifyConfig);
+                _client = new SpotifyClient(spotifyConfig);
+            }
+            else
+            {
+                _logger.WarningAsync("Check spotifyId & Secret");
+                _client = null!;
+            }
+
             _logger.InfoAsync("SpotifyClient created");
         }
         catch ( Exception e )
