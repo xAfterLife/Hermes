@@ -59,18 +59,28 @@ public sealed class SpotifyService
         switch ( type )
         {
             case SearchRequest.Types.Album:
+                if ( response.Albums.Items != null )
+                    embeds.AddRange(response.Albums.Items.Select(item => new EmbedBuilder { Title = item.Name, Description = item.Artists.First().Name, Color = Color.Red, ThumbnailUrl = item.Images.FirstOrDefault(x => x.Height == 640)?.Url }));
                 break;
             case SearchRequest.Types.Artist:
+                if ( response.Artists.Items != null )
+                    embeds.AddRange(response.Artists.Items.Select(item => new EmbedBuilder { Title = item.Name, Description = item.Name, Color = Color.Red, ThumbnailUrl = item.Images.FirstOrDefault(x => x.Height == 640)?.Url }));
                 break;
             case SearchRequest.Types.Playlist:
+                if ( response.Playlists.Items != null )
+                    embeds.AddRange(response.Playlists.Items.Select(item => new EmbedBuilder { Title = item.Name, Description = item.Owner.DisplayName, Color = Color.Red, ThumbnailUrl = item.Images.FirstOrDefault(x => x.Height == 640)?.Url }));
                 break;
             case SearchRequest.Types.Track:
                 if ( response.Tracks.Items != null )
-                    embeds.AddRange(response.Tracks.Items.Select(track => new EmbedBuilder { Title = track.Name, Description = track.Artists.First().Name, Color = Color.Red, ThumbnailUrl = track.Album.Images.FirstOrDefault(x => x.Height == 640)?.Url }));
+                    embeds.AddRange(response.Tracks.Items.Select(item => new EmbedBuilder { Title = item.Name, Description = item.Artists.First().Name, Color = Color.Red, ThumbnailUrl = item.Album.Images.FirstOrDefault(x => x.Height == 640)?.Url }));
                 break;
             case SearchRequest.Types.Show:
+                if ( response.Shows.Items != null )
+                    embeds.AddRange(response.Shows.Items.Select(item => new EmbedBuilder { Title = item.Name, Description = item.Description, Color = Color.Red, ThumbnailUrl = item.Images.FirstOrDefault(x => x.Height == 640)?.Url }));
                 break;
             case SearchRequest.Types.Episode:
+                if ( response.Episodes.Items != null )
+                    embeds.AddRange(response.Episodes.Items.Select(item => new EmbedBuilder { Title = item.Name, Description = item.Description, Color = Color.Red, ThumbnailUrl = item.Images.FirstOrDefault(x => x.Height == 640)?.Url }));
                 break;
             case SearchRequest.Types.All:
                 break;
