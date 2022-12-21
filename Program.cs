@@ -28,7 +28,7 @@ internal class Program
                               .AddSingleton<InteractionHandlerService>()
                               .AddSingleton<InteractionService>()
                               .AddSingleton<SpotifyService>()
-                              .AddSingleton<JsonService>()
+                              .AddSingleton<FaceItService>()
                               .AddSingleton(configuration)
                               .BuildServiceProvider();
 

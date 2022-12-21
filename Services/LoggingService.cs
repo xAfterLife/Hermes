@@ -92,7 +92,7 @@ public class LoggingService
             return Task.CompletedTask;
 
         var st = new StackTrace(ex, true);
-        var sf = st.GetFrame(st.FrameCount);
+        var sf = st.GetFrame(st.FrameCount - 1);
 
         return LogAsync(Severity.Error, $"{ex.GetType().FullName} - {ex.Message}{Environment.NewLine}{ex.StackTrace}", sf!.GetMethod()!.Name, sf.GetFileName()!, sf.GetFileLineNumber());
     }

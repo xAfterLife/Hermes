@@ -8,13 +8,11 @@ namespace Hermes.Services;
 public sealed class SpotifyService
 {
     private readonly SpotifyClient _client;
-    private readonly JsonService _jsonService;
     private readonly LoggingService _logger;
 
     public SpotifyService(IServiceProvider services)
     {
         _logger = services.GetRequiredService<LoggingService>();
-        _jsonService = services.GetRequiredService<JsonService>();
         var config = services.GetRequiredService<IConfiguration>();
 
         try
