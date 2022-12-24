@@ -1,6 +1,8 @@
-﻿using Discord;
+﻿using System.Security.Cryptography.X509Certificates;
+using Discord;
 using Discord.Interactions;
 using Hermes.Services;
+using Microsoft.VisualBasic;
 
 namespace Hermes.Modules;
 
@@ -49,11 +51,19 @@ public class FaceItModule : InteractionModuleBase<SocketInteractionContext>
             }
 
             var embed = new EmbedBuilder();
-            embed.WithAuthor($"{user.Nickname} Level {user.Games.Csgo.SkillLevel} ({user.Games.Csgo.FaceitElo})", $"https://beta.leetify.com/assets/images/rank-icons/faceit{user.Games.Csgo.SkillLevel}.svg");
+            embed.WithAuthor($"{user.Nickname}\t({user.Games.Csgo.FaceitElo} Elo)", $@"https://beta.leetify.com/assets/images/rank-icons/faceit{user.Games.Csgo.SkillLevel}.png", $@"https://www.faceit.com/de/players/{user.Nickname}");
             embed.WithTitle($"The stats for {user.Nickname} ({user.Games.Csgo.GamePlayerName})");
             embed.WithThumbnailUrl(user.Avatar);
             embed.WithImageUrl(user.CoverImage);
-            embed.WithColor(Color.Red);
+            embed.WithColor(user.Games.Csgo.SkillLevel switch
+            {
+                10               => Color.DarkRed,
+                (> 6) and (< 10) => Color.DarkOrange,
+                (> 4) and (< 8)  => Color.Gold,
+                (> 1) and (< 4)  => Color.DarkGreen,
+                1                => Color.LightGrey,
+                _                => Color.DarkPurple
+            });
 
             embed.WithDescription("Ø K/D: " + json.Lifetime.AverageKDRatio
                                                   + "\nØ HS%: " + json.Lifetime.AverageHeadshots
